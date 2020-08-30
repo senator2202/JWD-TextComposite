@@ -1,7 +1,9 @@
 package com.kharitonov.text_compositor.parser;
 
+import com.kharitonov.text_compositor.component.TextComponent;
+
 import java.util.List;
 
 public interface AbstractParser {
-    List<String> parse(String text);
+    List<TextComponent> parse(String text);
 }

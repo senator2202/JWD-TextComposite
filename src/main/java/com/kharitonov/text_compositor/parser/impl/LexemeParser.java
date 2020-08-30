@@ -1,5 +1,7 @@
 package com.kharitonov.text_compositor.parser.impl;
 
+import com.kharitonov.text_compositor.component.TextComponent;
+import com.kharitonov.text_compositor.component.impl.AtomicText;
 import com.kharitonov.text_compositor.parser.AbstractParser;
 
 import java.util.ArrayList;
@@ -15,13 +17,14 @@ public class LexemeParser implements AbstractParser {
                     "(?<arithmeticExpression>[(\\d)(ij]" +
                     "[\\d\\s\\Q()+-*/ij\\E]+[\\d\\Q()+-*/ij\\E])";
 
-    public List<String> parse(String text) {
+    public List<TextComponent> parse(String text) {
         Pattern pattern = Pattern.compile(REGEX_LEXEME);
         Matcher matcher = pattern.matcher(text);
-        List<String> lexemes = new ArrayList<>();
+        List<TextComponent> lexemes = new ArrayList<>();
         while (matcher.find()) {
             String lexeme = matcher.group();
-            lexemes.add(lexeme);
+            TextComponent atomicText = new AtomicText(lexeme);
+            lexemes.add(atomicText);
         }
         return lexemes;
     }
