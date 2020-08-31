@@ -20,8 +20,10 @@ public class ParagraphParser implements AbstractParser {
         List<TextComponent> paragraphs = new ArrayList<>();
         while (matcher.find()) {
             String paragraphText = matcher.group();
-            TextComponent paragraph = new CompositeText(CompositeType.PARAGRAPH);
-            List<TextComponent> sentences = new SentenceParser().parse(paragraphText);
+            TextComponent paragraph =
+                    new CompositeText(CompositeType.PARAGRAPH);
+            List<TextComponent> sentences =
+                    new SentenceParser().parse(paragraphText);
             for (TextComponent sentence : sentences) {
                 paragraph.add(sentence);
             }

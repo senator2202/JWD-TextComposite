@@ -7,20 +7,23 @@ import com.kharitonov.text_compositor.parser.AbstractParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SentenceParser implements AbstractParser {
-    private static final String REGEX_SPLIT_SENTENCE = "[?.!]";
+    private static final String REGEX_SENTENCE = "[A-ZА-Я][^.?!]+[.?!]";
 
     @Override
     public List<TextComponent> parse(String text) {
-        String[] sentencesArray = text.split(REGEX_SPLIT_SENTENCE);
+        Pattern pattern = Pattern.compile(REGEX_SENTENCE);
+        Matcher matcher = pattern.matcher(text);
         List<TextComponent> sentences = new ArrayList<>();
-        int offset = -1;
-        for (String sentenceText : sentencesArray) {
-            offset+=sentenceText.length()+1;
-            sentenceText += (char) text.charAt(offset);
-            TextComponent sentence = new CompositeText(CompositeType.SENTENCE);
-            List<TextComponent> lexemes = new LexemeParser().parse(sentenceText);
+        while (matcher.find()) {
+            String sentenceText = matcher.group();
+            TextComponent sentence =
+                    new CompositeText(CompositeType.SENTENCE);
+            List<TextComponent> lexemes =
+                    new LexemeParser().parse(sentenceText);
             for (TextComponent lexeme : lexemes) {
                 sentence.add(lexeme);
             }

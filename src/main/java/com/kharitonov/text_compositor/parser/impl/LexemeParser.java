@@ -10,12 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LexemeParser implements AbstractParser {
-    private static final String REGEX_LEXEME =
-            "(?<dash>-)|" +
-                    "(?<complexWord>\\(?\\p{L}+(-\\p{L}+)+\\)?)|" +
-                    "(?<word>\\(?\\p{L}+['.,)?!:;]*)|" +
-                    "(?<arithmeticExpression>[(\\d)(ij]" +
-                    "[\\d\\s\\Q()+-*/ij\\E]+[\\d\\Q()+-*/ij\\E])";
+    public static final String REGEX_LEXEME = "[^\\s]+";
 
     public List<TextComponent> parse(String text) {
         Pattern pattern = Pattern.compile(REGEX_LEXEME);
