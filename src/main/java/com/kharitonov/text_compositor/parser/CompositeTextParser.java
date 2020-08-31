@@ -11,7 +11,7 @@ public class CompositeTextParser {
     public CompositeText parse(String text) {
         CompositeText compositeText = new CompositeText(CompositeType.TEXT);
         ParagraphParser parser = new ParagraphParser();
-        List<TextComponent> paragraphs =parser.parse(text);
+        List<TextComponent> paragraphs = parser.parse(text);
         for (TextComponent paragraph : paragraphs) {
             compositeText.add(paragraph);
         }

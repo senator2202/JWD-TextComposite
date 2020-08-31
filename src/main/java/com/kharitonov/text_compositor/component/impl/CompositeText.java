@@ -4,6 +4,7 @@ import com.kharitonov.text_compositor.component.TextComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CompositeText implements TextComponent {
     private static final String SPACE = " ";
@@ -32,24 +33,24 @@ public class CompositeText implements TextComponent {
         textComponents.remove(c);
     }
 
-    public TextComponent getChild(int index) {
-        return textComponents.get(index);
+    public Optional<TextComponent> getChild(int index) {
+        return index >= 0 && index < textComponents.size()
+                ? Optional.of(textComponents.get(index))
+                : Optional.empty();
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        String delimiter = type == CompositeType.TEXT
+                ? LINE_SEPARATOR
+                : SPACE;
+        int delta = type == CompositeType.TEXT ? 2 : 1;
         for (TextComponent textComponent : textComponents) {
-            String childText = String.join(SPACE, textComponent.toString());
-            builder.append(childText).append(SPACE);
-            if (type == CompositeType.TEXT) {
-                builder.append(LINE_SEPARATOR);
-            }
+            String childText = String.join(delimiter, textComponent.toString());
+            builder.append(childText).append(delimiter);
         }
-        builder.deleteCharAt(builder.length() - 1);
-        if (type == CompositeType.TEXT) {
-            builder.deleteCharAt(builder.length() - 2);
-        }
+        builder.delete(builder.length() - delta, builder.length());
         return builder.toString();
     }
 }
