@@ -1,19 +1,31 @@
 package com.kharitonov.text_compositor.parser.impl;
 
-import com.kharitonov.text_compositor.component.TextComponent;
 import com.kharitonov.text_compositor.component.impl.CompositeText;
-import com.kharitonov.text_compositor.component.impl.CompositeType;
+import com.kharitonov.text_compositor.exception.ParserException;
+import com.kharitonov.text_compositor.parser.BaseParser;
+import com.kharitonov.text_compositor.type.CompositeType;
 
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class TextParser {
+public class TextParser implements BaseParser {
     private static final ParagraphParser PARAGRAPH_PARSER =
             ParagraphParser.getInstance();
 
-    public CompositeText parse(String text) {
+    @Override
+    public CompositeText parse(String text) throws ParserException {
+        if (text == null) {
+            throw new ParserException("Input text has null pointer!");
+        }
+        if (text.isEmpty()) {
+            throw new ParserException("Input text is empty!");
+        }
+        Pattern pattern = Pattern.compile(REGEX_PARAGRAPH);
+        Matcher matcher = pattern.matcher(text);
         CompositeText compositeText = new CompositeText(CompositeType.TEXT);
-        List<TextComponent> paragraphs = PARAGRAPH_PARSER.parse(text);
-        for (TextComponent paragraph : paragraphs) {
+        while (matcher.find()) {
+            String paragraphText = matcher.group();
+            CompositeText paragraph = PARAGRAPH_PARSER.parse(paragraphText);
             compositeText.add(paragraph);
         }
         return compositeText;

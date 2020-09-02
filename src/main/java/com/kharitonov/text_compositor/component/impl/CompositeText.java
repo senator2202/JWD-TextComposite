@@ -1,21 +1,15 @@
 package com.kharitonov.text_compositor.component.impl;
 
 import com.kharitonov.text_compositor.component.TextComponent;
+import com.kharitonov.text_compositor.type.CompositeType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class CompositeText implements TextComponent {
-    private static final String SPACE = " ";
-    private static final String LINE_SEPARATOR;
-
-    static {
-        LINE_SEPARATOR = System.getProperty("line.separator");
-    }
-
-    private CompositeType type;
-    private List<TextComponent> textComponents = new ArrayList<>();
+    private final CompositeType type;
+    private final List<TextComponent> textComponents = new ArrayList<>();
 
     public CompositeText(CompositeType type) {
         this.type = type;
@@ -39,13 +33,15 @@ public class CompositeText implements TextComponent {
                 : Optional.empty();
     }
 
+    public int componentsNumber() {
+        return textComponents.size();
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        String delimiter = type == CompositeType.TEXT
-                ? LINE_SEPARATOR
-                : SPACE;
-        int delta = type == CompositeType.TEXT ? 2 : 1;
+        String delimiter = type.getDelimiter();
+        int delta = type.getDelta();
         for (TextComponent textComponent : textComponents) {
             String childText = String.join(delimiter, textComponent.toString());
             builder.append(childText).append(delimiter);

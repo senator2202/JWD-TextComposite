@@ -2,22 +2,19 @@ package com.kharitonov.text_compositor.parser.impl;
 
 import com.kharitonov.text_compositor.component.TextComponent;
 import com.kharitonov.text_compositor.component.impl.CompositeText;
-import com.kharitonov.text_compositor.component.impl.CompositeType;
+import com.kharitonov.text_compositor.exception.ParserException;
 import com.kharitonov.text_compositor.parser.BaseParser;
+import com.kharitonov.text_compositor.type.CompositeType;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SentenceParser implements BaseParser {
-    private static final String REGEX_SENTENCE = "[A-ZА-Я][^.?!]+[.?!]";
     private static final SentenceParser INSTANCE = new SentenceParser();
     private static final LexemeParser LEXEME_PARSER =
             LexemeParser.getInstance();
 
     private SentenceParser() {
-
     }
 
     public static SentenceParser getInstance() {
@@ -25,20 +22,21 @@ public class SentenceParser implements BaseParser {
     }
 
     @Override
-    public List<TextComponent> parse(String text) {
-        Pattern pattern = Pattern.compile(REGEX_SENTENCE);
-        Matcher matcher = pattern.matcher(text);
-        List<TextComponent> sentences = new ArrayList<>();
-        while (matcher.find()) {
-            String sentenceText = matcher.group();
-            TextComponent sentence =
-                    new CompositeText(CompositeType.SENTENCE);
-            List<TextComponent> lexemes = LEXEME_PARSER.parse(sentenceText);
-            for (TextComponent lexeme : lexemes) {
-                sentence.add(lexeme);
-            }
-            sentences.add(sentence);
+    public CompositeText parse(String sentenceText) throws ParserException {
+        if (sentenceText == null) {
+            throw new ParserException("Input text has null pointer!");
         }
-        return sentences;
+        if (!sentenceText.matches(REGEX_SENTENCE)) {
+            throw new ParserException("Text doesn't match sentence regex!");
+        }
+        Pattern pattern = Pattern.compile(REGEX_LEXEME);
+        Matcher matcher = pattern.matcher(sentenceText);
+        CompositeText sentence = new CompositeText(CompositeType.SENTENCE);
+        while (matcher.find()) {
+            String lexemeText = matcher.group();
+            TextComponent lexeme = LEXEME_PARSER.parse(lexemeText);
+            sentence.add(lexeme);
+        }
+        return sentence;
     }
 }

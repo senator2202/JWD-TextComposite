@@ -1,46 +1,64 @@
 package com.kharitonov.text_compositor.parser.impl;
 
-import com.kharitonov.text_compositor.component.TextComponent;
 import com.kharitonov.text_compositor.component.impl.AtomicText;
+import com.kharitonov.text_compositor.component.impl.CompositeText;
+import com.kharitonov.text_compositor.exception.ParserException;
 import com.kharitonov.text_compositor.parser.BaseParser;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.kharitonov.text_compositor.type.AtomicType;
+import com.kharitonov.text_compositor.type.CompositeType;
 import org.nfunk.jep.JEP;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class LexemeParser implements BaseParser {
-    public static final String REGEX_LEXEME = "[^\\s]+";
-    private static final String REGEX_EXPRESSION =
-            "[(\\d)(ij][\\d\\s\\Q()+-*/ij\\E]+[\\d\\Q()+-*/ij\\E]";
     private static final LexemeParser INSTANCE = new LexemeParser();
-    private static final Logger LOGGER =
-            LogManager.getLogger(LexemeParser.class);
+    private static final String PUNCTUATION = ".,?!:;-()";
+    private static final String REGEX_WORD_CHARACTER = "[\\d\\p{L}']";
+    private static final String REGEX_EXPRESSION =
+            "[(\\d)(][\\d\\Q()+-*/\\E]+[\\d\\Q()+-*/\\E]";
 
     private LexemeParser() {
-
     }
 
     public static LexemeParser getInstance() {
         return INSTANCE;
     }
 
-    public List<TextComponent> parse(String text) {
-        Pattern pattern = Pattern.compile(REGEX_LEXEME);
-        Matcher matcher = pattern.matcher(text);
-        List<TextComponent> lexemes = new ArrayList<>();
-        while (matcher.find()) {
-            String lexeme = matcher.group();
-            if (lexeme.matches(REGEX_EXPRESSION)) {
-                lexeme = interpretExpression(lexeme);
-            }
-            TextComponent atomicText = new AtomicText(lexeme);
-            lexemes.add(atomicText);
+    @Override
+    public CompositeText parse(String lexemeText) throws ParserException {
+        if (lexemeText == null) {
+            throw new ParserException("Input text has null pointer!");
         }
-        return lexemes;
+        if (!lexemeText.matches(REGEX_LEXEME)) {
+            throw new ParserException("Text doesn't match lexeme regex!");
+        }
+        if (lexemeText.matches(REGEX_EXPRESSION)) {
+            lexemeText = interpretExpression(lexemeText);
+        }
+        CompositeText lexeme = new CompositeText(CompositeType.LEXEME);
+        char[] lexemeChars = lexemeText.toCharArray();
+        for (char lexemeChar : lexemeChars) {
+            AtomicText atomicText = null;
+            if (isPunctuation(lexemeChar)) {
+                atomicText = new AtomicText(lexemeChar, AtomicType.PUNCTUATION);
+            }
+            if (isWordCharacter(lexemeChar)) {
+                atomicText = new AtomicText(lexemeChar,
+                        AtomicType.WORD_CHARACTER);
+            }
+            if (atomicText != null) {
+                lexeme.add(atomicText);
+            }
+        }
+        return lexeme;
+    }
+
+    private boolean isWordCharacter(char character) {
+        String characterString = String.valueOf(character);
+        return characterString.matches(REGEX_WORD_CHARACTER);
+    }
+
+    private boolean isPunctuation(char character) {
+        String characterString = String.valueOf(character);
+        return PUNCTUATION.contains(characterString);
     }
 
     private String interpretExpression(String expression) {

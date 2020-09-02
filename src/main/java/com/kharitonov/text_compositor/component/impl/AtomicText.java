@@ -1,6 +1,7 @@
 package com.kharitonov.text_compositor.component.impl;
 
 import com.kharitonov.text_compositor.component.TextComponent;
+import com.kharitonov.text_compositor.type.AtomicType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,10 +10,16 @@ import java.util.Optional;
 
 public class AtomicText implements TextComponent {
     private static final Logger LOGGER = LogManager.getLogger(AtomicText.class);
-    private String text;
+    private final char character;
+    private final AtomicType type;
 
-    public AtomicText(String text) {
-        this.text = text;
+    public AtomicText(char character, AtomicType type) {
+        this.character = character;
+        this.type = type;
+    }
+
+    public AtomicType getType() {
+        return type;
     }
 
     public void add(TextComponent c) {
@@ -32,6 +39,6 @@ public class AtomicText implements TextComponent {
 
     @Override
     public String toString() {
-        return text;
+        return String.valueOf(character);
     }
 }
