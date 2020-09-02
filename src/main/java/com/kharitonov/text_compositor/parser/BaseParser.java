@@ -1,7 +1,7 @@
 package com.kharitonov.text_compositor.parser;
 
-import com.kharitonov.text_compositor.component.TextComponent;
+import com.kharitonov.text_compositor.component.impl.CompositeText;
 
 public interface BaseParser {
-    TextComponent parse(String text);
+    CompositeText parse(String text);
 }
