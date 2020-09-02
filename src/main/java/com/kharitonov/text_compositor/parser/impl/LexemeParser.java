@@ -12,7 +12,7 @@ public class LexemeParser implements BaseParser {
     private static final String PUNCTUATION = ".,?!:;-()";
     private static final String REGEX_WORD_CHARACTER = "[\\d\\p{L}']";
     private static final String REGEX_EXPRESSION =
-            "[(\\d)(][\\d\\Q()+-*/\\E]+[\\d\\Q()+-*/\\E]";
+            "[(\\d)][\\d\\Q()+-*/\\E]+[\\d\\Q()+-*/\\E]";
 
     private LexemeParser() {
     }
