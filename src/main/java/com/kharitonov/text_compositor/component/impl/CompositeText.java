@@ -19,22 +19,25 @@ public class CompositeText implements TextComponent {
         return type;
     }
 
+    public int componentsNumber() {
+        return textComponents.size();
+    }
+
+    @Override
     public void add(TextComponent c) {
         textComponents.add(c);
     }
 
+    @Override
     public void remove(TextComponent c) {
         textComponents.remove(c);
     }
 
+    @Override
     public Optional<TextComponent> getChild(int index) {
         return index >= 0 && index < textComponents.size()
                 ? Optional.of(textComponents.get(index))
                 : Optional.empty();
-    }
-
-    public int componentsNumber() {
-        return textComponents.size();
     }
 
     @Override
