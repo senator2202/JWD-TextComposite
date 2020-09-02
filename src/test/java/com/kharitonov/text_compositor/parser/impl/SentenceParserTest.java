@@ -8,7 +8,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 
 public class SentenceParserTest {
-    private final SentenceParser parser = new SentenceParser();
+    private final SentenceParser parser = SentenceParser.getInstance();
 
     @Test
     public void testParse() {

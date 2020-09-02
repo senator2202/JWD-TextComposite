@@ -1,14 +1,9 @@
 package com.kharitonov.text_compositor.parser.impl;
 
-import com.kharitonov.text_compositor.data_provider.StaticDataProvider;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-
 public class LexemeParserTest {
-    private final LexemeParser parser = new LexemeParser();
+    private final LexemeParser parser = LexemeParser.getInstance();
 
     @Test
     public void testParse() {

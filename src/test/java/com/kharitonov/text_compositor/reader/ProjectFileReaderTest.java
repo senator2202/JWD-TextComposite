@@ -12,7 +12,7 @@ public class ProjectFileReaderTest {
     @Test
     public void testRead() throws ProjectFileReaderException {
         String actual = reader.read("input\\text.txt");
-        String expected = StaticDataProvider.SOURCE_TEXT;
+        String expected = StaticDataProvider.INTERPRETED_TEXT;
         assertEquals(actual, expected);
     }
 }
