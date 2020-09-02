@@ -11,14 +11,12 @@ import java.util.regex.Pattern;
 public class TextParser implements BaseParser {
     private static final ParagraphParser PARAGRAPH_PARSER =
             ParagraphParser.getInstance();
+    private static final String REGEX_PARAGRAPH = ".+";
 
     @Override
     public CompositeText parse(String text) throws ParserException {
         if (text == null) {
             throw new ParserException("Input text has null pointer!");
-        }
-        if (text.isEmpty()) {
-            throw new ParserException("Input text is empty!");
         }
         Pattern pattern = Pattern.compile(REGEX_PARAGRAPH);
         Matcher matcher = pattern.matcher(text);

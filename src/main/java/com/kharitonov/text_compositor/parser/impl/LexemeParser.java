@@ -2,7 +2,6 @@ package com.kharitonov.text_compositor.parser.impl;
 
 import com.kharitonov.text_compositor.component.impl.AtomicText;
 import com.kharitonov.text_compositor.component.impl.CompositeText;
-import com.kharitonov.text_compositor.exception.ParserException;
 import com.kharitonov.text_compositor.parser.BaseParser;
 import com.kharitonov.text_compositor.type.AtomicType;
 import com.kharitonov.text_compositor.type.CompositeType;
@@ -23,13 +22,7 @@ public class LexemeParser implements BaseParser {
     }
 
     @Override
-    public CompositeText parse(String lexemeText) throws ParserException {
-        if (lexemeText == null) {
-            throw new ParserException("Input text has null pointer!");
-        }
-        if (!lexemeText.matches(REGEX_LEXEME)) {
-            throw new ParserException("Text doesn't match lexeme regex!");
-        }
+    public CompositeText parse(String lexemeText) {
         if (lexemeText.matches(REGEX_EXPRESSION)) {
             lexemeText = interpretExpression(lexemeText);
         }
