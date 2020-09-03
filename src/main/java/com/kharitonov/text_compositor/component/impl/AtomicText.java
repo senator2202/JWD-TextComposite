@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-
 public class AtomicText implements TextComponent {
     private static final Logger LOGGER = LogManager.getLogger(AtomicText.class);
     private final char character;
@@ -16,6 +15,10 @@ public class AtomicText implements TextComponent {
     public AtomicText(char character, AtomicType type) {
         this.character = character;
         this.type = type;
+    }
+
+    public char getCharacter() {
+        return character;
     }
 
     public AtomicType getType() {
@@ -35,6 +38,28 @@ public class AtomicText implements TextComponent {
         LOGGER.error("Impossible to get child components from " +
                 "atomic text object!");
         return Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AtomicText that = (AtomicText) o;
+        if (character != that.character) {
+            return false;
+        }
+        return type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = character;
+        result = 31 * result + type.hashCode();
+        return result;
     }
 
     @Override

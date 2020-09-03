@@ -4,6 +4,7 @@ import com.kharitonov.text_compositor.component.TextComponent;
 import com.kharitonov.text_compositor.type.CompositeType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +20,12 @@ public class CompositeText implements TextComponent {
         return type;
     }
 
-    public int componentsNumber() {
+    public int childrenNumber() {
         return textComponents.size();
+    }
+
+    public List<TextComponent> getChildren() {
+        return Collections.unmodifiableList(textComponents);
     }
 
     @Override
@@ -38,6 +43,28 @@ public class CompositeText implements TextComponent {
         return index >= 0 && index < textComponents.size()
                 ? Optional.of(textComponents.get(index))
                 : Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CompositeText that = (CompositeText) o;
+        if (type != that.type) {
+            return false;
+        }
+        return textComponents.equals(that.textComponents);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = type.hashCode();
+        result = 31 * result + textComponents.hashCode();
+        return result;
     }
 
     @Override
