@@ -2,10 +2,11 @@ package com.kharitonov.text_compositor.parser.impl;
 
 import com.kharitonov.text_compositor.component.impl.AtomicText;
 import com.kharitonov.text_compositor.component.impl.CompositeText;
+import com.kharitonov.text_compositor.interpreter.ArithmeticInterpreter;
+import com.kharitonov.text_compositor.interpreter.impl.ArithmeticInterpreterImpl;
 import com.kharitonov.text_compositor.parser.BaseParser;
 import com.kharitonov.text_compositor.type.AtomicType;
 import com.kharitonov.text_compositor.type.CompositeType;
-import org.nfunk.jep.JEP;
 
 public class LexemeParser implements BaseParser {
     private static final LexemeParser INSTANCE = new LexemeParser();
@@ -24,7 +25,8 @@ public class LexemeParser implements BaseParser {
     @Override
     public CompositeText parse(String lexemeText) {
         if (lexemeText.matches(REGEX_EXPRESSION)) {
-            lexemeText = interpretExpression(lexemeText);
+            ArithmeticInterpreter interpreter = new ArithmeticInterpreterImpl();
+            lexemeText = interpreter.interpret(lexemeText);
         }
         CompositeText lexeme = new CompositeText(CompositeType.LEXEME);
         char[] lexemeChars = lexemeText.toCharArray();
@@ -52,13 +54,5 @@ public class LexemeParser implements BaseParser {
     private boolean isPunctuation(char character) {
         String characterString = String.valueOf(character);
         return PUNCTUATION.contains(characterString);
-    }
-
-    private String interpretExpression(String expression) {
-        double value;
-        JEP jep = new JEP();
-        jep.parseExpression(expression);
-        value = jep.getValue();
-        return String.valueOf((int) value);
     }
 }
