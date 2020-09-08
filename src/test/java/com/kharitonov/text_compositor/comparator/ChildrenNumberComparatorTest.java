@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import java.util.Comparator;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class ChildrenNumberComparatorTest {
     private final Comparator<TextComponent> comparator =

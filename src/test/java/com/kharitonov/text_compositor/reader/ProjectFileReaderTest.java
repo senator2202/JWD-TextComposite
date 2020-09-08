@@ -15,4 +15,16 @@ public class ProjectFileReaderTest {
         String expected = StaticDataProvider.TEXT_SOURCE;
         assertEquals(actual, expected);
     }
+
+    @Test(expectedExceptions = ProjectFileReaderException.class,
+            expectedExceptionsMessageRegExp = "Error during reading file!")
+    public void testReadCaughtIOException() throws ProjectFileReaderException {
+        reader.read("blabla");
+    }
+
+    @Test(expectedExceptions = ProjectFileReaderException.class,
+            expectedExceptionsMessageRegExp = "Null pointer detected!")
+    public void testReadCaughtNullException() throws ProjectFileReaderException {
+        reader.read(null);
+    }
 }

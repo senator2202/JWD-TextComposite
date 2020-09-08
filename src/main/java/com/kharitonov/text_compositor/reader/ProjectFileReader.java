@@ -15,9 +15,7 @@ public class ProjectFileReader {
     public String read(String fileName) throws ProjectFileReaderException {
         try {
             String data = new String(Files.readAllBytes(Paths.get(fileName)));
-            String message = String.format("File %s was successfully read!",
-                    fileName);
-            LOGGER.info(message);
+            LOGGER.info("File '{}' was successfully read", fileName);
             return data;
         } catch (IOException e) {
             throw new ProjectFileReaderException("Error during reading file!",

@@ -4,7 +4,6 @@ import com.kharitonov.text_compositor.component.impl.CompositeText;
 import com.kharitonov.text_compositor.parser.impl.LexemeParser;
 import com.kharitonov.text_compositor.parser.impl.SentenceParser;
 import com.kharitonov.text_compositor.parser.impl.TextParser;
-import com.kharitonov.text_compositor.type.CompositeType;
 
 public class StaticDataProvider {
     public static final String TEXT_SOURCE;
