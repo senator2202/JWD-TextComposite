@@ -3,19 +3,19 @@ package com.kharitonov.text_compositor.type;
 public enum CompositeType {
     TEXT("\r\n", 2), PARAGRAPH(" ", 1), SENTENCE(" ", 1), LEXEME("", 0);
 
-    private final String delimiter;
-    private final int delta;
+    private final String childDelimiter;
+    private final int cutLength;
 
-    CompositeType(String delimiter, int delta) {
-        this.delimiter = delimiter;
-        this.delta = delta;
+    CompositeType(String childDelimiter, int cutLength) {
+        this.childDelimiter = childDelimiter;
+        this.cutLength = cutLength;
     }
 
-    public String getDelimiter() {
-        return delimiter;
+    public String getChildDelimiter() {
+        return childDelimiter;
     }
 
-    public int getDelta() {
-        return delta;
+    public int getCutLength() {
+        return cutLength;
     }
 }

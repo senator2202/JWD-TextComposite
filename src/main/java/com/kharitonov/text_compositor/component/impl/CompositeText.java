@@ -70,13 +70,13 @@ public class CompositeText implements TextComponent {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        String delimiter = type.getDelimiter();
-        int delta = type.getDelta();
+        String delimiter = type.getChildDelimiter();
+        int cutLength = type.getCutLength();
         for (TextComponent textComponent : textComponents) {
             String childText = String.join(delimiter, textComponent.toString());
             builder.append(childText).append(delimiter);
         }
-        builder.delete(builder.length() - delta, builder.length());
+        builder.delete(builder.length() - cutLength, builder.length());
         return builder.toString();
     }
 }

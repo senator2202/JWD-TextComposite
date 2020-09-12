@@ -20,18 +20,18 @@ public class CompositeTextService {
         return paragraphs;
     }
 
-    public List<TextComponent> sortSentencesByLexemeLengths(CompositeText compositeText) {
-        List<TextComponent> sentences = getAllSentences(compositeText);
-        Comparator<TextComponent> comparator =
-                new LexemeLengthSentenceComparator();
-        sentences.sort(comparator);
-        return sentences;
-    }
-
     public List<TextComponent> sortSentencesByWordLengths(CompositeText compositeText) {
         List<TextComponent> sentences = getAllSentences(compositeText);
         Comparator<TextComponent> comparator =
                 new WordLengthSentenceComparator();
+        sentences.sort(comparator);
+        return sentences;
+    }
+
+    public List<TextComponent> sortSentencesByLexemeLengths(CompositeText compositeText) {
+        List<TextComponent> sentences = getAllSentences(compositeText);
+        Comparator<TextComponent> comparator =
+                new LexemeLengthSentenceComparator();
         sentences.sort(comparator);
         return sentences;
     }

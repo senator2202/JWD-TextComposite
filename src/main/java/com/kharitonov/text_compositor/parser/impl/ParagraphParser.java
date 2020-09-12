@@ -11,7 +11,7 @@ public class ParagraphParser implements BaseParser {
     private static final ParagraphParser INSTANCE = new ParagraphParser();
     private static final SentenceParser SENTENCE_PARSER =
             SentenceParser.getInstance();
-    private static final String REGEX_SENTENCE = "[A-ZА-Я][^.?!]+[.?!]";
+    private static final String REGEX_SENTENCE = "[A-ZА-Я][^.?!]+[.?!]+";
 
     private ParagraphParser() {
     }

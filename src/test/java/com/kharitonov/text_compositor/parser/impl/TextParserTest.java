@@ -2,12 +2,13 @@ package com.kharitonov.text_compositor.parser.impl;
 
 import com.kharitonov.text_compositor.component.impl.CompositeText;
 import com.kharitonov.text_compositor.data_provider.StaticDataProvider;
+import com.kharitonov.text_compositor.parser.BaseParser;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
 public class TextParserTest {
-    private final TextParser parser = new TextParser();
+    private final BaseParser parser = new TextParser();
 
     @Test
     public void testParse() {
